@@ -37,6 +37,7 @@ const registerUser = asyncHandler(async (req, res) => {
       _id: user.id,
       name: user.name,
       email: user.email,
+      token: generateToken(user._id)
     });
   } else {
     res.status(400);
@@ -62,6 +63,7 @@ const loginUser = asyncHandler(async (req, res) => {
       _id: userExist.id,
       name: userExist.name,
       email: userExist.email,
+      token: generateToken(userExist._id)
     });
   } else{
     res.status(400);
@@ -76,19 +78,22 @@ const loginUser = asyncHandler(async (req, res) => {
 // @Route    GET /api/users/me
 // @access   Private
 const getUserDetails = asyncHandler(async (req, res) => {
-  // if(!req.body.userInfo){
-  //   res.status(400)
-  //   throw new Error("Please add all required information")
-  // }
-
-  // const newUser = await Goal.create({
-  //   goal: req.body.goal
-  // })
+  const {_id, email, name} = await User.findById(req.user.id)
 
   res.status(200).json({
-    message: "Gotten User Details",
+    id: _id,
+    name,
+    email,
   });
 });
+
+// Generate Token
+const generateToken = (id) =>{
+  return jwt.sign({id}, process.env.JWT_SECRET, {
+    expiresIn: "30d"
+  })
+
+}
 
 module.exports = {
   getUserDetails,
