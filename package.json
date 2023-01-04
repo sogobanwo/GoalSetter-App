@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node Backend/server.js",
     "server": "nodemon Backend/server.js",
-    "client": "npm start --prefix frontend"
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \" npm run server\" \" npm run client\"" 
   },
   "author": "Banwo Olorunsogo",
   "license": "MIT",
@@ -20,6 +21,7 @@
     "mongoose": "^6.8.2"
   },
   "devDependencies": {
+    "concurrently": "^7.6.0",
     "nodemon": "^2.0.20"
   }
 }
