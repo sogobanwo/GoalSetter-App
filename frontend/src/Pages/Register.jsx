@@ -1,8 +1,16 @@
 import { FaUser } from "react-icons/fa";
 import { Formik } from "formik";
 import { RegisterSchema } from "../Utils/validations/ValidationSchema";
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom";
+import {toast} from "react-toastify"
+import { registerUser, reset } from "../features/AuthRedux/authSlice"
 
 const Register = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { user, isLoading, isError, message, isSuccess } = useSelector()
+
   return (
     <>
       <section className="heading">
