@@ -1,16 +1,44 @@
 import { FaUser } from "react-icons/fa";
 import { Formik } from "formik";
 import { RegisterSchema } from "../Utils/validations/ValidationSchema";
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {toast} from "react-toastify"
-import { registerUser, reset } from "../features/AuthRedux/authSlice"
+import { toast } from "react-toastify";
+import { registerUser, reset } from "../features/AuthRedux/authSlice";
+import { useEffect } from "react";
+import { BallTriangle } from "react-loader-spinner";
 
 const Register = () => {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { user, isLoading, isError, message, isSuccess } = useSelector()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user, isLoading, isError, message, isSuccess } = useSelector(
+    (state) => state.auth
+  );
 
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess || user) {
+      navigate("/");
+    }
+
+    dispatch(reset());
+  }, [isError, isSuccess, user, message, dispatch, navigate]);
+
+  if (isLoading) {
+   return <BallTriangle
+      height={100}
+      width={100}
+      radius={5}
+      color="#000"
+      ariaLabel="ball-triangle-loading"
+      wrapperClass={{}}
+      wrapperStyle=""
+      visible={true}
+    />;
+  }
   return (
     <>
       <section className="heading">
@@ -25,7 +53,12 @@ const Register = () => {
           validationSchema={RegisterSchema}
           onSubmit={async (values, { setSubmitting }) => {
             const { name, password, email } = values;
-            console.log(values)
+            const userData = {
+              name,
+              password,
+              email,
+            };
+            dispatch(registerUser(userData));
             setSubmitting(true);
           }}
         >

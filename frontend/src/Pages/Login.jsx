@@ -1,8 +1,43 @@
 import { FaSignInAlt } from "react-icons/fa";
 import { Formik } from "formik";
 import { LoginSchema } from "../Utils/validations/ValidationSchema";
-
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { loginUser, reset } from "../features/AuthRedux/authSlice";
+import { useEffect } from "react";
+import { BallTriangle } from "react-loader-spinner";
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user, isLoading, isError, message, isSuccess } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess || user) {
+      navigate("/");
+    }
+
+    dispatch(reset());
+  }, [isError, isSuccess, user, message, dispatch, navigate]);
+
+  if (isLoading) {
+   return <BallTriangle
+      height={100}
+      width={100}
+      radius={5}
+      color="#000"
+      ariaLabel="ball-triangle-loading"
+      wrapperClass={{}}
+      wrapperStyle=""
+      visible={true}
+    />;
+  }
   return (
     <>
       <section className="heading">
@@ -16,8 +51,7 @@ const Login = () => {
           initialValues={{ password: "", email: ""}}
           validationSchema={LoginSchema}
           onSubmit={async (values, { setSubmitting }) => {
-            const { password, email } = values;
-            console.log(values)
+            dispatch(loginUser(values))
             setSubmitting(true);
           }}
         >
