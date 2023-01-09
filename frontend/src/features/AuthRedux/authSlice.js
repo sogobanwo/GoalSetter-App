@@ -13,8 +13,7 @@ const initialState = {
 }
 
 
-// AynscThunk Functions
-
+// ASYNCTHUNK FUNCTIONS
 // Register User
  export const registerUser = createAsyncThunk("/auth/register", async(user, thunkAPI)=>{
   try {
@@ -42,7 +41,7 @@ export const loginUser = createAsyncThunk("/auth/login", async(user, thunkAPI)=>
   await logout()
  })
 
-
+// SLICE
 //  Auth Slice
 const authSlice = createSlice({
   name: "auth",
