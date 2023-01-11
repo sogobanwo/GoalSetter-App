@@ -11,13 +11,13 @@ const GoalForm = () => {
     (state) => state.goals
   );
 
-  // useEffect(() => {
-  //   if (isError) {
-  //     toast.error(message);
-  //   }
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
 
-  //   dispatch(reset());
-  // }, [isError, isSuccess, message, goals, dispatch]);
+    dispatch(reset());
+  }, [isError, message, isSuccess, dispatch]);
 
   if(isLoading){
     return <BallTriangle

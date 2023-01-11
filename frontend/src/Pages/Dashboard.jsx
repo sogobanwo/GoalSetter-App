@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import GoalForm from "../Components/goalForm";
 import { getAllGoals, reset } from "../features/goalRedux/goalSlice";
+import { BallTriangle } from "react-loader-spinner";
+import EachGoal from "../Components/EachGoal";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -13,19 +15,38 @@ const Dashboard = () => {
     (state) => state.goals
   );
 
+ 
+
+  if (!user) {
+    navigate("/login");
+  }
   useEffect(() => {
+
     if (isError) {
       console.log(message);
     }
 
-    if (!user) {
-      navigate("/login");
-    }
+    
 
     dispatch(getAllGoals());
 
     return () => dispatch(reset());
   }, [user, navigate, dispatch, isError, message]);
+
+  if (isLoading) {
+    return (
+      <BallTriangle
+        height={100}
+        width={100}
+        radius={5}
+        color="#000"
+        ariaLabel="ball-triangle-loading"
+        wrapperClass={{}}
+        wrapperStyle=""
+        visible={true}
+      />
+    );
+  }
 
   return (
     <>
@@ -34,6 +55,17 @@ const Dashboard = () => {
         <p>Goals Dashboard</p>
       </section>
       <GoalForm />
+      <section className="content">
+        {goals.length > 0 ? (
+          <div className="goals">
+            {goals.map((goal)=>{
+              return <EachGoal key={goal._id} goal={goal}/>
+            })}
+          </div>
+        ) : (
+          <h3> You do not have any goal set yet</h3>
+        )}
+      </section>
     </>
   );
 };
