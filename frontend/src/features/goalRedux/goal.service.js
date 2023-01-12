@@ -3,17 +3,18 @@ import axios from "axios";
 export const getGoals = async (token) => {
   const config = {
     headers: {
-      "Authorization": `Bearer ${token}`,
+      authorization: `Bearer ` + token
     },
   };
-  const response = await axios.get("/api/goals", token, config);
+  console.log(config)
+  const response = await axios.get("/api/goals", config);
   return response.data;
 };
 
 export const setGoal = async (userGoal, token) => {
   const config = {
     headers: {
-      "Authorization": `Bearer ${token}`,
+      authorization: `Bearer ` + token
     },
   };
   const response = await axios.post("/api/goals", userGoal, config);
@@ -23,7 +24,7 @@ export const setGoal = async (userGoal, token) => {
 export const updateGoal = async (userGoal, token) => {
   const config = {
     headers: {
-      Authorization: `Bearer ${token}`,
+      authorization: `Bearer ` + token
     },
   };
   const response = await axios.put("/api/goals/:id", userGoal, config);
@@ -33,7 +34,7 @@ export const updateGoal = async (userGoal, token) => {
 export const deleteGoal = async (token) => {
   const config = {
     headers: {
-      Authorization: `Bearer ${token}`,
+      authorization: `Bearer ` + token
     },
   };
   const response = await axios.delete("/api/goals/:id", config);

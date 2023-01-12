@@ -7,7 +7,7 @@ import { BallTriangle } from "react-loader-spinner";
 
 const GoalForm = () => {
   const dispatch = useDispatch();
-  const { isLoading, isError, message, isSuccess, goals } = useSelector(
+  const { isLoading, isError, message, isSuccess } = useSelector(
     (state) => state.goals
   );
 

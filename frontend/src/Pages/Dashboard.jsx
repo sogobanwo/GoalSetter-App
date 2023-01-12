@@ -11,27 +11,26 @@ const Dashboard = () => {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
-  const { goals, isLoading, isError, message, isSuccess } = useSelector(
+  const { goals, isLoading, isError, message } = useSelector(
     (state) => state.goals
   );
 
  
 
+  useEffect(() => {
+    
   if (!user) {
     navigate("/login");
-  }
-  useEffect(() => {
+  }else{
 
     if (isError) {
       console.log(message);
     }
 
-    
-
     dispatch(getAllGoals());
 
-    return () => dispatch(reset());
-  }, [user, navigate, dispatch, isError, message]);
+    return () => dispatch(reset());}
+  }, [user, isError, message, navigate, dispatch]);
 
   if (isLoading) {
     return (

@@ -23,7 +23,8 @@ export const getAllGoals = createAsyncThunk(
   async (goal, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await getGoals(goal, token);
+      console.log(token)
+      return await getGoals(token);
     } catch (error) {
       const message =
         (error.response &&
@@ -105,7 +106,6 @@ const goalsSlice = createSlice({
       state.isError = false;
       state.isSuccess = false;
       state.message = "";
-      state.goals = [];
     },
   },
   extraReducers: (builder) => {

@@ -7,7 +7,7 @@ const EachGoal = ({goal}) => {
       <div>
         {new Date(goal.createdAt).toLocaleString("en-US")}
       </div>
-      <h2>{goal.text}</h2>
+      <h2>{goal.goal}</h2>
       <buttton className="close">
         <FaWindowClose />
       </buttton>
