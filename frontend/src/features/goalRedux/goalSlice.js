@@ -138,6 +138,34 @@ const goalsSlice = createSlice({
         state.isError = true
         state.message = action.payload
       })
+      .addCase(deleteAGoal.pending, (state)=>{
+        state.isLoading = true
+      })
+      .addCase(deleteAGoal.fulfilled, (state, action)=>{
+        state.isLoading = false
+        state.isSuccess = true
+        state.goals = state.goals.filter((goal)=> goal._id !== action.payload.id)
+        
+      })
+      .addCase(deleteAGoal.rejected, (state, action)=>{
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+      .addCase(updateAGoal.pending, (state)=>{
+        state.isLoading = true
+      })
+      .addCase(updateAGoal.fulfilled, (state, action)=>{
+        state.isLoading = false
+        state.isSuccess = true
+        state.goals = action.payload
+        
+      })
+      .addCase(updateAGoal.rejected, (state, action)=>{
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
       
       ;
   },

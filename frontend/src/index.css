@@ -169,7 +169,7 @@ h3 {
   transform: scale(0.98);
 }
 
-.loadingSpinnerContainer {
+.spinner {
   position: fixed;
   top: 0;
   right: 0;

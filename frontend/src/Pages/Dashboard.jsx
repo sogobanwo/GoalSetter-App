@@ -33,7 +33,7 @@ const Dashboard = () => {
   }, [user, isError, message, navigate, dispatch]);
 
   if (isLoading) {
-    return (
+    return (<div className="spinner">
       <BallTriangle
         height={100}
         width={100}
@@ -44,6 +44,7 @@ const Dashboard = () => {
         wrapperStyle=""
         visible={true}
       />
+      </div>
     );
   }
 

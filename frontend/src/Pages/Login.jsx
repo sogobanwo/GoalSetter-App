@@ -27,16 +27,21 @@ const Login = () => {
   }, [isError, isSuccess, user, message, dispatch, navigate]);
 
   if (isLoading) {
-   return <BallTriangle
-      height={100}
-      width={100}
-      radius={5}
-      color="#000"
-      ariaLabel="ball-triangle-loading"
-      wrapperClass={{}}
-      wrapperStyle=""
-      visible={true}
-    />;
+    return (
+      <div className="spinner">
+        {" "}
+        <BallTriangle
+          height={100}
+          width={100}
+          radius={5}
+          color="#000"
+          ariaLabel="ball-triangle-loading"
+          wrapperClass={{}}
+          wrapperStyle=""
+          visible={true}
+        />
+      </div>
+    );
   }
   return (
     <>
@@ -48,10 +53,10 @@ const Login = () => {
       </section>
       <section className="form">
         <Formik
-          initialValues={{ password: "", email: ""}}
+          initialValues={{ password: "", email: "" }}
           validationSchema={LoginSchema}
           onSubmit={async (values, { setSubmitting }) => {
-            dispatch(loginUser(values))
+            dispatch(loginUser(values));
             setSubmitting(true);
           }}
         >
@@ -66,7 +71,6 @@ const Login = () => {
             /* and other goodies */
           }) => (
             <form onSubmit={handleSubmit}>
-             
               <div className="form-group">
                 <input
                   type="email"
@@ -109,7 +113,7 @@ const Login = () => {
                   </div>
                 ) : null}
               </div>
-              
+
               <div className="form-group">
                 <button
                   type="submit"

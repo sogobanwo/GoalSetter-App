@@ -19,17 +19,21 @@ const GoalForm = () => {
     dispatch(reset());
   }, [isError, message, isSuccess, dispatch]);
 
-  if(isLoading){
-    return <BallTriangle
-    height={100}
-    width={100}
-    radius={5}
-    color="#000"
-    ariaLabel="ball-triangle-loading"
-    wrapperClass={{}}
-    wrapperStyle=""
-    visible={true}
-  />
+  if (isLoading) {
+    return (
+      <div className="spinner">
+        <BallTriangle
+          height={100}
+          width={100}
+          radius={5}
+          color="#000"
+          ariaLabel="ball-triangle-loading"
+          wrapperClass={{}}
+          wrapperStyle=""
+          visible={true}
+        />
+      </div>
+    );
   }
 
   return (
@@ -37,7 +41,7 @@ const GoalForm = () => {
       <Formik
         initialValues={{ goal: "" }}
         onSubmit={async (values, { setSubmitting }) => {
-          dispatch(addNewGoal(values))
+          dispatch(addNewGoal(values));
           setSubmitting(true);
         }}
       >

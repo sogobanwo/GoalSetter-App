@@ -21,22 +21,22 @@ export const setGoal = async (userGoal, token) => {
   return response.data;
 };
 
-export const updateGoal = async (userGoal, token) => {
+export const updateGoal = async (id, userGoal, token) => {
   const config = {
     headers: {
       authorization: `Bearer ` + token
     },
   };
-  const response = await axios.put("/api/goals/:id", userGoal, config);
+  const response = await axios.put(`/api/goals/${id}`, userGoal, config);
   return response.data;
 };
 
-export const deleteGoal = async (token) => {
+export const deleteGoal = async (id, token) => {
   const config = {
     headers: {
       authorization: `Bearer ` + token
     },
   };
-  const response = await axios.delete("/api/goals/:id", config);
+  const response = await axios.delete(`/api/goals/${id}`, config);
   return response.data;
 };
