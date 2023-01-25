@@ -12,6 +12,32 @@ const goals = await Goal.find({user: req.user.id})
   res.status(200).json(goals);
 });
 
+// @desc     get A goals
+// @Route    GET /api/goals/:id
+// @access   Private
+const getAGoal = asyncHandler(async(req, res) => {
+  const goal = await Goal.findById(req.params.id)
+
+  if(!goal){
+    res.status(400)
+    throw new Error("Goal not found")
+  }
+
+  // Check for user
+  if(!req.user){
+    res.status(400)
+    throw new Error("User not found")
+  }
+
+  // Check if the loggedIn user is the same as the goal user
+  if(goal.user.toString() !== req.user.id){
+    res.status(401)
+    throw new Error("User not Authorized")
+  }
+
+  res.status(200).json(goal);
+});
+
 // @desc     Set a goal
 // @Route    POST /api/goals
 // @access   Private
@@ -41,8 +67,6 @@ const updateGoal = asyncHandler (async(req, res) => {
     res.status(400)
     throw new Error("Goal not found")
   }
-
-  
 
   // Check for user
   if(!req.user){
@@ -95,6 +119,7 @@ module.exports = {
   setGoal,
   updateGoal,
   deleteGoal,
+  getAGoal
 };
 
 

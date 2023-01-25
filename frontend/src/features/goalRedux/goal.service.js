@@ -6,7 +6,6 @@ export const getGoals = async (token) => {
       authorization: `Bearer ` + token
     },
   };
-  console.log(config)
   const response = await axios.get("/api/goals", config);
   return response.data;
 };
@@ -28,6 +27,16 @@ export const updateGoal = async (id, userGoal, token) => {
     },
   };
   const response = await axios.put(`/api/goals/${id}`, userGoal, config);
+  return response.data;
+};
+
+export const getOneGoal = async (id, token) => {
+  const config = {
+    headers: {
+      authorization: `Bearer ` + token
+    },
+  };
+  const response = await axios.get(`/api/goals/${id}`, config);
   return response.data;
 };
 

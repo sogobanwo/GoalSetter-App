@@ -95,7 +95,7 @@ h3 {
 .goal {
   background-color: #f4f4f4;
   margin: 10px 0;
-  padding: 20px 0 10px;
+  padding: 20px 20px 10px 20px;
   position: relative;
 }
 
@@ -103,6 +103,14 @@ h3 {
   position: absolute;
   top: 10px;
   right: 15px;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+.goal .Edit {
+  position: absolute;
+  top: 10px;
+  right: 40px;
   cursor: pointer;
   border: none;
   background: none;
@@ -191,6 +199,61 @@ h3 {
   animation: spin 1.2s linear infinite;
 }
 
+body.active-modal {
+  overflow-y: hidden;
+}
+
+.btn-modal {
+  padding: 10px 20px;
+  display: block;
+  margin: auto;
+  font-size: 18px;
+}
+
+.modal, .overlay {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  z-index: 2;
+}
+
+.overlay {
+  background: rgba(49,49,49,0.8);
+}
+.modal-content {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -40%);
+  line-height: 1.4;
+  background: #f1f1f1;
+  padding: 14px 28px;
+  border-radius: 3px;
+  width: 40vw;
+  z-index: 2;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 7px;
+}
+
+#close{
+  margin: 10px 0;
+  background-color: #673AB7;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -201,7 +264,8 @@ h3 {
 }
 
 @media (max-width: 600px) {
-  .form {
+  .form,
+  .content {
     width: 90%;
   }
 
@@ -211,5 +275,23 @@ h3 {
 
   .heading p {
     font-size: 1.5rem;
+  }
+  .goals {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    margin: 0;
+  }
+  .goal {
+    background-color: #f4f4f4;
+    margin: 10px 0;
+    padding: 20px 20px 10px 20px;
+    width: 100%;
+  }
+  .modal-content {
+    width: 80vw;
   }
 }

@@ -1,9 +1,9 @@
 import React from 'react'
-import { FaWindowClose } from "react-icons/fa";
+import { FaEdit, FaWindowClose } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
-import { deleteAGoal } from '../features/goalRedux/goalSlice';
+import { deleteAGoal, getAGoal } from '../features/goalRedux/goalSlice';
 
-const EachGoal = ({goal}) => {
+const EachGoal = ({goal, modal, setModal}) => {
   const dispatch = useDispatch()
   return (
     <div className='goal'>
@@ -11,11 +11,17 @@ const EachGoal = ({goal}) => {
         {new Date(goal.createdAt).toLocaleString("en-US")}
       </div>
       <h2>{goal.goal}</h2>
-      <buttton className="close" onClick={()=>{
+      <button className="Edit" onClick={()=>{
+        setModal(!modal)
+        dispatch(getAGoal(goal._id))
+      }}>
+        <FaEdit />
+      </button>
+      <button className="close" onClick={()=>{
         dispatch(deleteAGoal(goal._id))
       }}>
         <FaWindowClose />
-      </buttton>
+      </button>
     </div>
   )
 }

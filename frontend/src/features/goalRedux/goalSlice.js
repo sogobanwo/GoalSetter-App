@@ -4,6 +4,7 @@ import {
   setGoal,
   updateGoal,
   deleteGoal,
+  getOneGoal,
 } from "./goal.service";
 
 // goals Initial state
@@ -13,6 +14,7 @@ const initialState = {
   isLoading: false,
   isSuccess: false,
   message: "",
+  goalToEdit: null
 };
 
 // ASYNCTHUNK FUNCTIONS
@@ -74,6 +76,26 @@ export const updateAGoal = createAsyncThunk(
     }
   }
 );
+
+// getOneGoal Goal
+export const getAGoal = createAsyncThunk(
+  "/goals/getOneGoal",
+  async (goal, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await getOneGoal(goal, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 // Delete Goal
 export const deleteAGoal = createAsyncThunk(
   "/goals/deleteGoal",
@@ -158,15 +180,28 @@ const goalsSlice = createSlice({
       .addCase(updateAGoal.fulfilled, (state, action)=>{
         state.isLoading = false
         state.isSuccess = true
-        state.goals = action.payload
+        state.goals = state.goals.map((goal)=> goal._id === action.payload.id ? action.payload : goal)
         
+        state.goalToEdit = null
       })
       .addCase(updateAGoal.rejected, (state, action)=>{
         state.isLoading = false
         state.isError = true
         state.message = action.payload
       })
-      
+      .addCase(getAGoal.pending, (state)=>{
+        state.isLoading = true
+      })
+      .addCase(getAGoal.fulfilled, (state, action)=>{
+        state.isLoading = false
+        state.isSuccess = true
+        state.goalToEdit = action.payload
+      })
+      .addCase(getAGoal.rejected, (state, action)=>{
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
       ;
   },
 });
