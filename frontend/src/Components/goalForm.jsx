@@ -43,6 +43,7 @@ const GoalForm = () => {
         onSubmit={async (values, { setSubmitting }) => {
           dispatch(addNewGoal(values));
           setSubmitting(true);
+          toast.success("Goal created")
         }}
       >
         {({

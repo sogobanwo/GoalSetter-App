@@ -4,17 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logoutUser, reset } from "../features/AuthRedux/authSlice";
 
-
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
-  const onLogout =()=>{
-    dispatch(logoutUser())
-    dispatch(reset())
-    navigate("/")
-  }
+  const onLogout = () => {
+    dispatch(logoutUser());
+    dispatch(reset());
+    navigate("/");
+  };
   return (
     <header className="header">
       <div className="logo">

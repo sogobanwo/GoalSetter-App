@@ -12,7 +12,7 @@ const Dashboard = () => {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
-  const { goals, isLoading, isError, message } = useSelector(
+  const { goals, isLoading, isError, message, goalToEdit } = useSelector(
     (state) => state.goals
   );
   const [modal, setModal] = useState(false);
@@ -28,7 +28,7 @@ const Dashboard = () => {
 
       return () => dispatch(reset());
     }
-  }, [user, isError, message, navigate, dispatch]);
+  }, [user, isError, message, goalToEdit, navigate, dispatch]);
 
   if (isLoading) {
     return (

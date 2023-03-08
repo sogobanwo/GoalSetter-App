@@ -7,10 +7,9 @@ import { BallTriangle } from "react-loader-spinner";
 
 const UpdateGoalForm = ({ modal, setModal }) => {
   const dispatch = useDispatch();
-  const { isLoading, isError, message, isSuccess, goalToEdit, goals } =
-    useSelector((state) => state.goals);
-
-    // const goalToUpdate = goals.find((goal)=> goal._id === goalToEdit._id)
+  const { isLoading, isError, message, isSuccess, goalToEdit } = useSelector(
+    (state) => state.goals
+  );
   const toggleModal = () => {
     setModal(!modal);
   };
@@ -54,20 +53,19 @@ const UpdateGoalForm = ({ modal, setModal }) => {
             <Formik
               initialValues={{ goal: goalToEdit.goal }}
               onSubmit={async (values, { setSubmitting }) => {
-                const goalEdit = goals.find((goal)=> goalToEdit._id === goal._id)
-                dispatch(updateAGoal(goalEdit._id, values));
+                const goalObject = { goal: values, id: goalToEdit._id };
+                dispatch(updateAGoal(goalObject));
                 setSubmitting(true);
+                await setModal(!modal);
+                toast.success("Goal Updated");
               }}
             >
               {({
                 values,
-                errors,
-                touched,
                 handleChange,
                 handleBlur,
                 handleSubmit,
                 isSubmitting,
-                /* and other goodies */
               }) => (
                 <form onSubmit={handleSubmit}>
                   <div className="form-group">
@@ -77,7 +75,7 @@ const UpdateGoalForm = ({ modal, setModal }) => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.goal}
-                      placeholder="Set your Goal"
+                      placeholder="Update your Goal"
                     />
                   </div>
                   <div className="form-group">
@@ -90,10 +88,7 @@ const UpdateGoalForm = ({ modal, setModal }) => {
                     </button>
                   </div>
                   <div className="form-group">
-                    <button 
-                    onClick={toggleModal}
-                    className="btn btn-block"
-                    >
+                    <button onClick={toggleModal} className="btn btn-block">
                       Cancel
                     </button>
                   </div>

@@ -25,7 +25,6 @@ export const getAllGoals = createAsyncThunk(
   async (goal, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      console.log(token)
       return await getGoals(token);
     } catch (error) {
       const message =
@@ -42,11 +41,10 @@ export const getAllGoals = createAsyncThunk(
 // Add Goal
 export const addNewGoal = createAsyncThunk(
   "/goals/setgoal",
-  async (goal, thunkAPI) => {
+  async (userGoal, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-
-      return await setGoal(goal, token);
+      return await setGoal(userGoal, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -61,10 +59,13 @@ export const addNewGoal = createAsyncThunk(
 // Update Goal
 export const updateAGoal = createAsyncThunk(
   "/goals/updateGoal",
-  async (goal, thunkAPI) => {
+  async ( goalObject, thunkAPI ) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await updateGoal(goal, token);
+      // console.log("Abraham", token)
+      // console.log(goal)
+      // console.log(id)
+      return await updateGoal( goalObject, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -181,7 +182,6 @@ const goalsSlice = createSlice({
         state.isLoading = false
         state.isSuccess = true
         state.goals = state.goals.map((goal)=> goal._id === action.payload.id ? action.payload : goal)
-        
         state.goalToEdit = null
       })
       .addCase(updateAGoal.rejected, (state, action)=>{
