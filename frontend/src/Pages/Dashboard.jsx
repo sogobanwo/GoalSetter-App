@@ -6,16 +6,19 @@ import { getAllGoals, reset } from "../features/goalRedux/goalSlice";
 import { BallTriangle } from "react-loader-spinner";
 import EachGoal from "../Components/EachGoal";
 import UpdateGoalForm from "../Components/updateGoalModal";
+import ReactPaginate from "react-paginate";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const { user } = useSelector((state) => state.auth);
+  const [modal, setModal] = useState(false);
+  const [pageNumber, setPageNumber] = useState(0);
   const { goals, isLoading, isError, message, goalToEdit } = useSelector(
     (state) => state.goals
   );
-  const [modal, setModal] = useState(false);
+
   useEffect(() => {
     if (!user) {
       navigate("/login");
@@ -47,6 +50,31 @@ const Dashboard = () => {
     );
   }
 
+  // Pagination start
+
+  const goalsPerPage = 4;
+  const goalsPassed = goalsPerPage * pageNumber;
+
+  const displayGoals = goals
+    .slice(goalsPassed, goalsPassed + goalsPerPage)
+    .map((goal) => {
+      return (
+        <EachGoal
+          key={goal._id}
+          goal={goal}
+          modal={modal}
+          setModal={setModal}
+        />
+      );
+    });
+
+  const pageCount = Math.ceil(goals.length / goalsPerPage);
+
+  const pageChange = ({ selected }) => {
+    setPageNumber(selected);
+  };
+  // End of Pagination
+
   return (
     <>
       <section className="heading">
@@ -56,21 +84,22 @@ const Dashboard = () => {
       <GoalForm />
       <section className="content">
         {goals.length > 0 ? (
-          <div className="goals">
-            {goals.map((goal) => {
-              return (
-                <EachGoal
-                  key={goal._id}
-                  goal={goal}
-                  modal={modal}
-                  setModal={setModal}
-                />
-              );
-            })}
-          </div>
+          <div className="goals">{displayGoals}</div>
         ) : (
           <h3> You do not have any goal set yet</h3>
         )}
+        {goals.length > 4 ? (
+          <ReactPaginate
+            previousLabel={<FaArrowLeft />}
+            nextLabel={<FaArrowRight />}
+            pageCount={pageCount}
+            onPageChange={pageChange}
+            containerClassName={"paginateContainer"}
+            previousLinkClassName={"paginatePrevious"}
+            nextLinkClassName={"paginateNext"}
+            activeClassName={"currentPage"}
+          />
+        ) : null}
       </section>
       <UpdateGoalForm modal={modal} setModal={setModal} />
     </>
