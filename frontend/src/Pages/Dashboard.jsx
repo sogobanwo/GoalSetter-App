@@ -88,7 +88,7 @@ const Dashboard = () => {
         ) : (
           <h3> You do not have any goal set yet</h3>
         )}
-        {goals.length > 4 ? (
+        {goals.length > goalsPerPage ? (
           <ReactPaginate
             previousLabel={<FaArrowLeft />}
             nextLabel={<FaArrowRight />}
